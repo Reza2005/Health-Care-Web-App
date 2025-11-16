@@ -1,40 +1,32 @@
 import React from 'react';
 
-// Styling (saya tambahkan cursor: pointer)
-const navStyle = {
-  backgroundColor: '#f0f0f0',
-  padding: '20px',
-  marginBottom: '20px',
-  borderRadius: '5px',
-  textAlign: 'center',
-};
-const linkStyle = {
-  margin: '0 15px',
-  textDecoration: 'none',
-  fontWeight: 'bold',
-  color: '#007bff',
-  fontSize: '1.2em',
-  cursor: 'pointer' // Penting: Menandakan ini bisa diklik
-};
-
-// 1. Terima prop 'onNavigasi' (nama bebas) dari App.jsx
+// 1. Terima prop 'onNavigasi' dari App.jsx
 const Navbar = ({ onNavigasi }) => {
   return (
-    <nav style={navStyle}>
-      {/* 2. Ganti <Link> dengan tag biasa (span/button/a) 
-           Gunakan onClick untuk memanggil fungsi 'onNavigasi'
-           dengan membawa nama halaman yang dituju.
-      */}
-      <span style={linkStyle} onClick={() => onNavigasi('beranda')}>
+    <nav className="bg-gray-100 p-5 mb-5 rounded-lg text-center shadow">
+      {/* 2. Ganti <span> dengan class Tailwind */}
+      <span 
+        className="mx-4 text-lg font-bold text-blue-600 cursor-pointer hover:text-blue-800 transition-colors"
+        onClick={() => onNavigasi('beranda')}
+      >
         Beranda
       </span>
-      <span style={linkStyle} onClick={() => onNavigasi('kalkulator')}>
+      <span 
+        className="mx-4 text-lg font-bold text-blue-600 cursor-pointer hover:text-blue-800 transition-colors"
+        onClick={() => onNavigasi('kalkulator')}
+      >
         Kalkulator
       </span>
-      <span style={linkStyle} onClick={() => onNavigasi('nutrisi')}>
+      <span 
+        className="mx-4 text-lg font-bold text-blue-600 cursor-pointer hover:text-blue-800 transition-colors"
+        onClick={() => onNavigasi('nutrisi')}
+      >
         Nutrisi
       </span>
-      <span style={linkStyle} onClick={() => onNavigasi('profil')}>
+      <span 
+        className="mx-4 text-lg font-bold text-blue-600 cursor-pointer hover:text-blue-800 transition-colors"
+        onClick={() => onNavigasi('profil')}
+      >
         Profil
       </span>
     </nav>
