@@ -1,26 +1,20 @@
-import React, { useState } from 'react'; // 1. Import useState
+import React, { useState } from 'react'; 
 
 // 2. Import Navbar dan SEMUA halaman
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import KalkulatorPage from './pages/KalkulatorPage';
 import NutrisiPage from './pages/NutrisiPage';
-import ProfilePage from './pages/ProfilePage';
+import ProfilePage from './pages/ProfilPage'; // Pastikan ini sudah Profil (bukan Profile)
 
 // Styling (opsional)
-const appStyle = {
-  maxWidth: '1200px',
-  margin: '0 auto',
-  padding: '0 20px'
-};
+// const appStyle = { ... } <-- HAPUS BLOK INI
 
 function App() {
   // 3. Buat STATE untuk melacak halaman mana yang aktif.
-  //    'beranda' adalah nilai default saat aplikasi pertama dimuat.
   const [halamanAktif, setHalamanAktif] = useState('beranda');
 
   // 4. Buat fungsi untuk menampilkan halaman yang benar
-  //    Ini adalah pengganti <Routes>
   const tampilkanHalaman = () => {
     switch (halamanAktif) {
       case 'beranda':
@@ -38,17 +32,12 @@ function App() {
   };
 
   return (
-    <div style={appStyle}>
-      {/* 5. Tampilkan Navbar.
-           Kirim 'setHalamanAktif' sebagai prop 'onNavigasi'.
-           Saat 'onNavigasi' dipanggil di Navbar, state di App akan berubah.
-      */}
+    // GANTI baris 'div' di bawah ini
+    <div className="max-w-6xl mx-auto px-5"> 
+      {/* 5. Tampilkan Navbar. */}
       <Navbar onNavigasi={setHalamanAktif} />
 
-      {/* 6. Panggil fungsi untuk me-render halaman yang sesuai.
-           Setiap kali state 'halamanAktif' berubah, 
-           fungsi ini akan berjalan lagi dan menampilkan halaman yang baru.
-      */}
+      {/* 6. Panggil fungsi untuk me-render halaman yang sesuai. */}
       <main>
         {tampilkanHalaman()}
       </main>
