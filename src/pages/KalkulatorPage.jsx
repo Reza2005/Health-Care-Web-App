@@ -1,88 +1,106 @@
 import React, { useState } from 'react';
 
-// Styling sederhana (CSS-in-JS) agar terlihat lebih rapi
-const styles = {
-  container: {
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-    maxWidth: '400px',
-    margin: '0 auto',
-  },
-  title: {
-    textAlign: 'center',
-    color: '#333',
-  },
-  inputGroup: {
-    marginBottom: '15px',
-  },
-  label: {
-    display: 'block',
-    marginBottom: '5px',
-  },
-  input: {
-    width: '100%',
-    padding: '8px',
-    boxSizing: 'border-box', // Agar padding tidak merusak layout
-  },
-  button: {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-  },
-  result: {
-    marginTop: '20px',
-    fontSize: '1.2em',
-    fontWeight: 'bold',
-  }
-};
-
 const KalkulatorPage = () => {
-  // State untuk menyimpan nilai input
-  const [angka1, setAngka1] = useState(0);
-  const [angka2, setAngka2] = useState(0);
-  const [hasil, setHasil] = useState(0);
+  // State untuk berat (kg) dan tinggi (cm)
+  const [berat, setBerat] = useState('');
+  const [tinggi, setTinggi] = useState('');
+  
+  // State untuk menyimpan hasil BMI dan kategorinya
+  const [bmi, setBmi] = useState(null);
+  const [kategoriBmi, setKategoriBmi] = useState('');
 
-  // Fungsi untuk menghitung (contoh sederhana: tambah)
+  // Fungsi untuk mendapatkan kategori BMI
+  const getKategoriBmi = (bmiValue) => {
+    if (bmiValue < 18.5) {
+      return { nama: 'Kurus', kelas: 'text-yellow-500' };
+    } else if (bmiValue >= 18.5 && bmiValue <= 24.9) {
+      return { nama: 'Ideal', kelas: 'text-green-500' };
+    } else if (bmiValue >= 25 && bmiValue <= 29.9) {
+      return { nama: 'Gemuk', kelas: 'text-orange-500' };
+    } else {
+      return { nama: 'Obesitas', kelas: 'text-red-500' };
+    }
+  };
+
+  // Fungsi untuk menghitung BMI
   const handleHitung = () => {
-    setHasil(Number(angka1) + Number(angka2));
+    // Konversi ke angka, pastikan valid
+    const beratNum = Number(berat);
+    const tinggiNum = Number(tinggi);
+
+    if (beratNum > 0 && tinggiNum > 0) {
+      // Ubah tinggi dari cm ke meter (tinggi / 100)
+      const tinggiMeter = tinggiNum / 100;
+      // Rumus BMI: berat / (tinggi * tinggi)
+      const bmiValue = beratNum / (tinggiMeter * tinggiMeter);
+      
+      setBmi(bmiValue.toFixed(2)); // Ambil 2 angka di belakang koma
+      
+      // Set kategori berdasarkan nilai BMI
+      const kategori = getKategoriBmi(bmiValue);
+      setKategoriBmi(kategori);
+
+    } else {
+      // Reset jika input tidak valid
+      setBmi(null);
+      setKategoriBmi('');
+    }
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Kalkulator Sederhana</h1>
+    // Menggunakan class Tailwind untuk styling
+    <div className="max-w-md mx-auto p-5 font-sans">
+      <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        Kalkulator BMI (Body Mass Index)
+      </h1>
       
-      <div style={styles.inputGroup}>
-        <label htmlFor="angka1" style={styles.label}>Angka 1:</label>
+      <div className="mb-4">
+        <label htmlFor="berat" className="block text-gray-700 mb-2">
+          Berat Badan (kg):
+        </label>
         <input 
           type="number" 
-          id="angka1"
-          style={styles.input}
-          value={angka1}
-          onChange={(e) => setAngka1(e.target.value)}
+          id="berat"
+          className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={berat}
+          onChange={(e) => setBerat(e.target.value)}
+          placeholder="Contoh: 60"
         />
       </div>
       
-      <div style={styles.inputGroup}>
-        <label htmlFor="angka2" style={styles.label}>Angka 2:</label>
+      <div className="mb-6">
+        <label htmlFor="tinggi" className="block text-gray-700 mb-2">
+          Tinggi Badan (cm):
+        </label>
         <input 
           type="number" 
-          id="angka2"
-          style={styles.input}
-          value={angka2}
-          onChange={(e) => setAngka2(e.target.value)}
+          id="tinggi"
+          className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={tinggi}
+          onChange={(e) => setTinggi(e.target.value)}
+          placeholder="Contoh: 170"
         />
       </div>
       
-      <button style={styles.button} onClick={handleHitung}>
-        Hitung (Tambah)
+      <button 
+        className="w-full py-3 bg-blue-500 text-white font-bold rounded-lg shadow-md hover:bg-blue-600 transition-colors"
+        onClick={handleHitung}
+      >
+        Hitung BMI
       </button>
 
-      <div style={styles.result}>
-        Hasil: {hasil}
-      </div>
+      {/* Tampilkan hasil HANYA jika BMI sudah dihitung */}
+      {bmi && (
+        <div className="mt-8 p-4 bg-gray-100 rounded-lg text-center">
+          <p className="text-lg text-gray-700 mb-2">BMI Anda adalah:</p>
+          <div className="text-4xl font-extrabold text-blue-600 mb-3">
+            {bmi}
+          </div>
+          <p className="text-xl font-semibold">
+            Kategori: <span className={kategoriBmi.kelas}>{kategoriBmi.nama}</span>
+          </p>
+        </div>
+      )}
     </div>
   );
 };
