@@ -18,8 +18,8 @@ export default defineConfig({
       },
 
       manifest: {
-        name: 'ideal-weight-calculator',
-        short_name: 'ideal-weight-calculator',
+        name: 'Fitness one',
+        short_name: 'Fitness One',
         description: 'Tugas Responsi Modul 4 PPB',
         theme_color: '#ffffff',
       },
