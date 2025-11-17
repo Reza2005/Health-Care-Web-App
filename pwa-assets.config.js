@@ -8,5 +8,5 @@ export default defineConfig({
         preset: '2023',
     },
     preset,
-    images: ['src/assets/logo.png'],
+    images: ['public/icon.png'],
 })
